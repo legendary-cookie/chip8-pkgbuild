@@ -1,0 +1,34 @@
+diff --git a/Makefile b/Makefile
+index ba6c25e..752d3d6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -3,6 +3,10 @@ CC=gcc
+ CFLAGS=-c -Wall
+ LDFLAGS=-lm
+ 
++ifndef DESTIDIR
++	DESTDIR=/usr/
++endif
++
+ # Detect operating system:
+ # More info: http://stackoverflow.com/q/714100
+ ifeq ($(OS),Windows_NT)
+@@ -22,7 +26,7 @@ else
+   LDFLAGS += -s
+ endif
+ 
+-all: c8asm c8dasm $(EXECUTABLES) docs example
++all: c8asm c8dasm $(EXECUTABLES) docs
+ 
+ debug:
+ 	make BUILD=debug
+@@ -86,3 +90,9 @@ clean: wipe
+ 	-rm -f c8asm chip8 c8dasm *.exe
+ 	-rm -f chip8-api.html README.html
+ 	-rm -f *.log *.bak
++
++
++install: all
++	install -Dsm 755 chip8 ${DESTDIR}/bin/chip8
++	install -Dsm 755 c8asm ${DESTDIR}/bin/c8asm
++	install -Dsm 755 c8dasm ${DESTDIR}/bin/c8dasm
