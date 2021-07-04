@@ -8,7 +8,7 @@ url="https://github.com/wernsey/chip8"
 license=('GPL')
 groups=()
 depends=()
-makedepends=('git') # 'bzr', 'git', 'mercurial' or 'subversion'
+makedepends=('git', 'wget') # 'bzr', 'git', 'mercurial' or 'subversion'
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 replaces=()
@@ -27,7 +27,8 @@ pkgver() {
 
 prepare() {
 	cd "$srcdir/${pkgname%-git}"
-	git apply $srcdir/../git.patch
+	wget https://raw.githubusercontent.com/legendary-cookie/chip8-pkgbuild/master/git.patch -O $srcdir/git.patch
+	git apply $srcdir/git.patch
 }
 
 build() {
